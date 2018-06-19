@@ -1,8 +1,6 @@
 SublimeLinter-contrib-vcom
 ================================
 
-[![Build Status](https://travis-ci.org/SublimeLinter/SublimeLinter-contrib-vcom.svg?branch=master)](https://travis-ci.org/SublimeLinter/SublimeLinter-contrib-vcom)
-
 This linter plugin for [SublimeLinter](https://github.com/SublimeLinter/SublimeLinter) provides an interface to `vcom`, a VHDL compiler provided with [ModelSim](https://www.mentor.com/products/fv/modelsim/) and QuestaSim which provides a linting mode. It will be used with files that have the “VHDL” syntax.
 
 ## Installation
