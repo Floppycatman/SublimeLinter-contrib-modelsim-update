@@ -1,20 +1,130 @@
-import SublimeLinter
-from SublimeLinter.lint import Linter
+from SublimeLinter.lint import Linter, util
+import sublime
+import sublime_plugin
+import SublimeLinter.lint
+
+def get_SL_version():
+    """
+    Return the major version number of SublimeLinter.
+    """
+    return getattr(SublimeLinter.lint, 'VERSION', 3)
 
 
-class Vcom(Linter):
-    cmd = ('vcom', '-2008', '-lint', '-check_synthesis', '${file}', '${args}')
-    error_stream = SublimeLinter.lint.STREAM_STDOUT
+################################################################################
+# vcom
+################################################################################
+class vcom(Linter):
+    # Arguments can be passed in a linter settings file:
+    # http://www.sublimelinter.com/en/stable/linter_settings.html#args
+    # E.g.:
+    # "linters": {
+    #   "vcom": {
+    #     "args": ["-check_synthesis", "-2002"],
+    #     "working_dir": "d:/tmp/tst/vhdl",
+    # },
+    #
+    # Alternately, project specific arguments can be set in a project file:
+    # http://www.sublimelinter.com/en/stable/settings.html#project-settings
+    # E.g.:
+    #"settings":
+    # {
+    #   // SublimeLinter-contrib-vcom
+    #   "SublimeLinter.linters.vcom.args": ["-check_synthesis", "-2002"],
+    #   "SublimeLinter.linters.vcom.working_dir": "d:/tmp/tst/vhdl",
+    # },
+    #
+    cmd = ('vcom', '${args}', '${file}')
+    multiline = False
+    error_stream = util.STREAM_BOTH
+
+    if get_SL_version() == 3:
+        syntax = ('vhdl')
+    else:
+        on_stderr = None  # handle stderr via split_match
+        defaults = {
+            'selector': 'source.vhdl',
+        }
+
+    # there is a ":" in the filepath under Windows like C:\DIR\FILE
+    if sublime.platform() == 'windows':
+        filepath = r'[^:]+:[^:]+'
+    else:
+        filepath = r'[^:]+'
+
+    # http://www.sublimelinter.com/en/stable/linter_attributes.html#regex-mandatory
+    # Modified regex:
+    # 1) Since ModelSim doesn't provide the 'Col' information, we utilize the
+    # <near> field, when possible (i.e. use a "quoted text" to derive <near>
+    # field position)
+    # 2) Note that <code> field isn't used (it can be, but it doesn't really
+    # serve any meaningful purpose)
+    # 3) Suppress message "** Error: file(line): VHDL Compiler exiting"
+    # at the end of any file with errors
     regex = (
-        r'.*'
-        r'^\*\* ((?P<error>Error)|(?P<warning>Warning)): '
-        r'.*(?P<file>\w+\.vhd)'
-        r'\((?P<line>\d+)\): '
-        r'(near "(?P<near>.+)": )?'
-        r'\((?P<code>vcom-\d+)\)?'
-        r'(?P<message>.*)'
+      r'\*\* ((?P<error>Error)|(?P<warning>Warning)): '
+      r'(?P<file>.*)'
+      r'\((?P<line>\d+)\): '
+      r'(VHDL Compiler exiting)?'
+      r'(?P<message>([^"]*\"(?P<near>[^"]+)\")?.*)'
+      .format(filepath)
     )
-    multiline = True
-    defaults = {
-        'selector': 'source.vhdl'
-    }
+
+
+class SublimeLinterVcomRunTests(sublime_plugin.WindowCommand):
+    """
+    To do unittests, run the following command in ST's console:
+    window.run_command('sublime_linter_vcom_run_tests')
+    """
+    def run(self):
+        from .tests.vcom_regex_tests import run_tests
+        run_tests(vcom.regex)
+
+
+################################################################################
+# vlog
+################################################################################
+class vlog(Linter):
+    # refer to description in vcom
+    cmd = ('vlog', '${args}', '${file}')
+    multiline = False
+    error_stream = util.STREAM_BOTH
+
+    if get_SL_version() == 3:
+        syntax = ('verilog', 'systemverilog')
+    else:
+        on_stderr = None  # handle stderr via split_match
+        defaults = {
+            'selector': "source.verilog, source.systemverilog",
+        }
+
+    # there is a ":" in the filepath under Windows like C:\DIR\FILE
+    if sublime.platform() == 'windows':
+        filepath = r'[^:]+:[^:]+'
+    else:
+        filepath = r'[^:]+'
+
+    # http://www.sublimelinter.com/en/stable/linter_attributes.html#regex-mandatory
+    # Modified regex:
+    # 1) Since ModelSim doesn't provide the 'Col' information, we utilize the
+    # <near> field, when possible (i.e. use a single/double quoted text
+    # to derive <near> field position)
+    # 2) Note that <code> field isn't used (it can be, but it doesn't really
+    # serve any meaningful purpose)
+    regex = (
+      r'\*\* ((?P<error>Error)|(?P<warning>Warning)): '
+      r'(\(vlog-\d+\) )?'
+      r'(?P<file>.*)'
+      r'\((?P<line>\d+)\): '
+      r"(?P<message>([^\"]*(?P<quote>['\"])(?P<near>[^'\"]+)(?P=quote))?.*)"
+      .format(filepath)
+    )
+
+
+class SublimeLinterVlogRunTests(sublime_plugin.WindowCommand):
+    """
+    To do unittests, run the following command in ST's console:
+    window.run_command('sublime_linter_vlog_run_tests')
+    """
+    def run(self):
+        from .tests.vlog_regex_tests import run_tests
+        run_tests(vlog.regex)
