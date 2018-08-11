@@ -27,7 +27,7 @@ Arguments can be passed in a [linter settings](http://www.sublimelinter.com/en/s
   "linters": {
     "vcom": {
       "args": ["-check_synthesis", "-2002"],
-      "working_dir": "d:/tmp/tst/vhdl",
+      "working_dir": "$project_path/../sim",
   },
 }
 ```
@@ -39,7 +39,7 @@ Arguments can be passed in a [linter settings](http://www.sublimelinter.com/en/s
 {
   // SublimeLinter-contrib-vcom
   "SublimeLinter.linters.vcom.args": ["-check_synthesis", "-2002"],
-  "SublimeLinter.linters.vcom.working_dir": "d:/tmp/tst/vhdl",
+  "SublimeLinter.linters.vcom.working_dir": "$project_path/../sim",
 },
 ```
 </li>
