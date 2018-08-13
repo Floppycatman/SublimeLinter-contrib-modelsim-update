@@ -1,0 +1,6 @@
+Version 1.1.0
+-------------
+* Added support for vlog compiler linting
+* Improved vcom regex, to derive column position from double quoted text via <near> field
+* Added UnitTests to verify vcom/vlog regex
+* Updated readme
