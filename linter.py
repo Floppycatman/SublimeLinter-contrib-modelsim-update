@@ -36,6 +36,7 @@ class vcom(Linter):
     cmd = ('vcom', '${args}', '${file}')
     multiline = False
     error_stream = util.STREAM_BOTH
+    tempfile_suffix = 'vhd'
 
     if get_SL_version() == 3:
         syntax = ('vhdl')
@@ -88,6 +89,7 @@ class vlog(Linter):
     cmd = ('vlog', '${args}', '${file}')
     multiline = False
     error_stream = util.STREAM_BOTH
+    tempfile_suffix = 'v'
 
     if get_SL_version() == 3:
         syntax = ('verilog', 'systemverilog')
