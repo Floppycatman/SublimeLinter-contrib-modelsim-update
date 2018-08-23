@@ -1,4 +1,4 @@
-SublimeLinter-contrib-vcom
+SublimeLinter-contrib-modelsim
 ================================
 
 This linter plugin for [SublimeLinter](https://github.com/SublimeLinter/SublimeLinter) provides an interface to `vcom`/`vlog` - VHDL/Verilog/SystemVerilog compilers provided with [ModelSim](https://www.mentor.com/products/fv/modelsim/) and QuestaSim which provide a linting mode. `vcom` will be used with "VHDL" files , `vlog` with "Verilog" and "SystemVerilog" files.
