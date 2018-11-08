@@ -34,7 +34,7 @@ class vcom(Linter):
     #   "SublimeLinter.linters.vcom.working_dir": "d:/tmp/tst/vhdl",
     # },
     #
-    cmd = ('vcom', '${args}', '${file}')
+    cmd = ('vcom', '${args}', '${temp_file}')
     multiline = False
     error_stream = util.STREAM_BOTH
     tempfile_suffix = 'vhd'
@@ -90,7 +90,7 @@ class SublimeLinterVcomRunTests(sublime_plugin.WindowCommand):
 ###############################################################################
 class vlog(Linter):
     # refer to description in vcom
-    cmd = ('vlog', '${args}', '${file}')
+    cmd = ('vlog', '${args}', '${temp_file}')
     multiline = False
     error_stream = util.STREAM_BOTH
     tempfile_suffix = 'v'
