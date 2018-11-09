@@ -52,18 +52,10 @@ class vcom(Linter):
     # 1) Since ModelSim doesn't provide the 'Col' information, we utilize the
     # <near> field, when possible (i.e. use a "quoted text" to derive <near>
     # field position)
-    # 2) Note that <code> field isn't used (it can be, but it doesn't really
-    # serve any meaningful purpose)
+    # 2) <code> field is used, but it doesn't really serve any meaningful
+    # purpose
     # 3) Suppress message "** Error: file(line): VHDL Compiler exiting"
     # at the end of any file with errors
-    # regex = (
-    #     r'\*\* ((?P<error>Error)|(?P<warning>Warning)): '
-    #     r'(?P<file>.*)'
-    #     r'\((?P<line>\d+)\): '
-    #     r'(VHDL Compiler exiting)?'
-    #     r'(?P<message>([^"]*\"(?P<near>[^"]+)\")?.*)'
-    # )
-
     regex = (
         r'\*\* ((?P<error>Error( \(suppressible\))?)|(?P<warning>Warning)): '
         r'(?P<file>.*)'
