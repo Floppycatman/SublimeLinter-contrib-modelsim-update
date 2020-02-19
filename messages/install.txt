@@ -1,6 +1,6 @@
-SublimeLinter-contrib-vcom
+SublimeLinter-contrib-modelsim-update
 -------------------------------
-This linter plugin for SublimeLinter provides an interface to vcom.
+This linter plugin for SublimeLinter provides an interface to vcom/vlog.
 
 For more information, please see:
-https://github.com/jevogel/SublimeLinter-contrib-vcom
+https://github.com/floppycatman/SublimeLinter-contrib-modelsim-update 
