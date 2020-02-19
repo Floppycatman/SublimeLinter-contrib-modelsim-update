@@ -105,7 +105,7 @@ class vlog(Linter):
     regex = (
         r'\*\* ((?P<error>Error)|(?P<warning>Warning)): '
         r'(\(vlog-\d+\) )?'
-        r'(?P<file>.*)'
+        r'(?P<filename>.*)'
         r'\((?P<line>\d+)\): '
         r'(?P<message>([^"\'\n]*(?P<quote>["\'])(?P<near>[^"\']+)(?P=quote))?.*)'
     )
